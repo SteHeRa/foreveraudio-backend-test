@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { PlaylistRequestI } from "../interfaces/playlists";
+import { CreatePlaylistRequestI, GetPlaylistByIdRequestI } from "../interfaces/playlists";
 import PlaylistRepository from "../repositories/PlaylistRepository";
 
 export default class PlaylistController {
@@ -28,10 +28,42 @@ export default class PlaylistController {
 	): Promise<Response | undefined> {
 		try {
 			// add request body params to the new variable
-			const params: PlaylistRequestI = req.body;
+			const params: CreatePlaylistRequestI = req.body;
 
 			// create new playlist
 			const playlistDetails = await this.playlistRepository.createPlaylist(
+				params
+			);
+
+			// return response containing playlist details
+			return res.json({
+				playlist: playlistDetails,
+				params: params,
+			});
+		} catch (err: any) {
+			next(err);
+		}
+	}
+
+	/**
+	 * get a playlist by Id
+	 *
+	 * @param req
+	 * @param res
+	 * @param next
+	 * @returns
+	 */
+	public async getById(
+		req: Request,
+		res: Response,
+		next: NextFunction
+	): Promise<Response | undefined> {
+		try {
+			// add request body params to the new variable
+			const params: GetPlaylistByIdRequestI = req.body;
+
+			// create new playlist
+			const playlistDetails = await this.playlistRepository.getPlaylistById(
 				params
 			);
 

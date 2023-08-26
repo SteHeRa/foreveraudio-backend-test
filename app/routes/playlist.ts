@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import playlistMiddleware from "../api/middlewares/playlistMiddleware";
+import {validateCreatePlaylist, validateGetPlaylistById} from "../api/middlewares/playlistMiddleware";
 import PlaylistController from "../api/controllers/PlaylistController";
 const router = express.Router();
 
@@ -10,8 +10,13 @@ const playlistController = new PlaylistController();
  */
 router.post(
 	"/",
-	playlistMiddleware,
+	validateCreatePlaylist,
 	playlistController.create.bind(playlistController)
 );
+
+/**
+ * Get a playlist from the database
+ */
+router.get("/:playlistId", validateGetPlaylistById, playlistController.getById.bind(playlistController))
 
 export default router;

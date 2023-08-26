@@ -1,5 +1,5 @@
 import { pool } from "../../config/database";
-import { PlaylistDetailsI, PlaylistRequestI } from "../interfaces/playlists";
+import { PlaylistDetailsI, CreatePlaylistRequestI } from "../interfaces/playlists";
 
 export default class PlaylistModel {
 	/**
@@ -8,11 +8,11 @@ export default class PlaylistModel {
 	 * @param playlistDetails
 	 * @returns last insert
 	 */
-	public async save(playlistDetails: PlaylistRequestI): Promise<number> {
+	public async save(playlistDetails: CreatePlaylistRequestI): Promise<number> {
 		try {
 			const results = await pool.query(
 				`
-          INSERT INTO playlists 
+          INSERT INTO playlists
           SET datetime_created = NOW(), ?`,
 				{
 					title: playlistDetails.title,
