@@ -23,7 +23,7 @@ router.get("/:playlistId", validateGetPlaylistById, playlistController.getById.b
  * Get multiple playlists from database with pagination
  */
 
-router.get("/", validateGetPlaylists, playlistController.getAll.bind(playlistController))
+router.get("/", validateGetPlaylists, playlistController.getPlaylists.bind(playlistController))
 
 
 export default router;

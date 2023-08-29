@@ -85,7 +85,7 @@ export default class PlaylistController {
 	 * @param next
 	 * @returns
 	 */
-		public async getAll(
+		public async getPlaylists(
 			req: Request,
 			res: Response,
 			next: NextFunction
