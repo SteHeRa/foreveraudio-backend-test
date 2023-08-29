@@ -115,6 +115,13 @@ function validatePlaylistId(
 			parsedCount = 10
 		}
 
+		// add upper limit to the amount of playlists we return
+		// using an aribtrary value, it's hard to know how big this value
+		// should be without context for how the endpoint will be used
+		if (parsedCount > 100) {
+			parsedCount = 100
+		}
+
 		// if page is not provided or is invalid default to first page
 		if (!parsedPage) {
 			// pages are 0 indexed
