@@ -1,4 +1,4 @@
-import { PlaylistDetailsI, CreatePlaylistRequestI, GetPlaylistByIdRequestI } from "../interfaces/playlists";
+import { PlaylistDetailsI, CreatePlaylistRequestI, GetPlaylistByIdBodyI, GetPlaylistsBodyI } from "../interfaces/playlists";
 import PlaylistModel from "../models/Playlist";
 
 export default class PlaylistRepository {
@@ -29,13 +29,24 @@ export default class PlaylistRepository {
 	 * @returns
 	 */
 	public async getPlaylistById(
-		{playlistId}: GetPlaylistByIdRequestI
+		{ playlistId }: GetPlaylistByIdBodyI
 	): Promise<PlaylistDetailsI> {
-		const id = parseInt(playlistId)
-		const details = await this.playlistModel.getPlaylistById(id);
+
+		const details = await this.playlistModel.getPlaylistById(playlistId);
 
 		return details;
 	}
 
+	/**
+	 * get multiple playlists from the database with pagination
+	 * @param countAndPage
+	 * @returns
+	 */
+	public async getPlaylists(
+		params: GetPlaylistsBodyI
+	): Promise<PlaylistDetailsI[]> {
+		const details = await this.playlistModel.getPlaylists(params);
 
+		return details;
+	}
 }

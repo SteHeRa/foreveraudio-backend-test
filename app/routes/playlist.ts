@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import {validateCreatePlaylist, validateGetPlaylistById} from "../api/middlewares/playlistMiddleware";
+import {validateCreatePlaylist, validateGetPlaylistById, validateGetPlaylists} from "../api/middlewares/playlistMiddleware";
 import PlaylistController from "../api/controllers/PlaylistController";
 const router = express.Router();
 
@@ -18,5 +18,12 @@ router.post(
  * Get a playlist from the database
  */
 router.get("/:playlistId", validateGetPlaylistById, playlistController.getById.bind(playlistController))
+
+/**
+ * Get multiple playlists from database with pagination
+ */
+
+router.get("/", validateGetPlaylists, playlistController.getAll.bind(playlistController))
+
 
 export default router;

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { CreatePlaylistRequestI, GetPlaylistByIdRequestI} from "../interfaces/playlists";
+import { CreatePlaylistRequestI, GetPlaylistByIdRequestI, GetPlaylistsRequestI} from "../interfaces/playlists";
 
 /**
  * Playlist generator validator
@@ -29,6 +29,22 @@ export function validateGetPlaylistById(req: Request, _res: Response, next: Next
 		validatePlaylistId(params.playlistId);
 
 		req.body = { playlistId: params.playlistId }
+
+		next();
+	} catch (err) {
+		next(err);
+	}
+};
+
+/**
+ * Get playlists validator
+ */
+export function validateGetPlaylists(req: Request, _res: Response, next: NextFunction) {
+	try {
+		const queryParams: Partial<GetPlaylistsRequestI> = req.query;
+
+		// Validate playlist request object
+		validateGetPlaylistsQueryParams(queryParams, req);
 
 		next();
 	} catch (err) {
@@ -80,4 +96,30 @@ function validatePlaylistId(
 				`Invalid Request. Given value: ${id} for playlistId is invalid`
 			);
 		}
+	}
+
+
+/**
+ * Check for valid get playlists query params and give defaults
+ *
+ * @param params
+ */
+	function validateGetPlaylistsQueryParams(params: Partial<GetPlaylistsRequestI>, req: Request) {
+		const {count, page} = params
+
+		let parsedCount = count ? parseInt(count) : undefined
+		let parsedPage = page ? parseInt(page) : undefined
+
+		// if count is not provided or is invalid default to 10
+		if (!parsedCount) {
+			parsedCount = 10
+		}
+
+		// if page is not provided or is invalid default to first page
+		if (!parsedPage) {
+			// pages are 0 indexed
+			parsedPage = 0
+		}
+
+		req.body = {count: parsedCount, page: parsedPage}
 	}

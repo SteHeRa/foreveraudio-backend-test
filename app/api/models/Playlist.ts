@@ -1,5 +1,5 @@
 import { pool } from "../../config/database";
-import { PlaylistDetailsI, CreatePlaylistRequestI } from "../interfaces/playlists";
+import { PlaylistDetailsI, CreatePlaylistRequestI, GetPlaylistsBodyI } from "../interfaces/playlists";
 
 export default class PlaylistModel {
 	/**
@@ -45,6 +45,33 @@ export default class PlaylistModel {
 			return formattedResults[0];
 		} catch (err: any) {
 			throw Error("Failed to get a playlist by given ID value.");
+		}
+	}
+
+	/**
+	 * Get multiple playlist details from database with pagination
+	 * @param id
+	 * @returns
+	 */
+	public async getPlaylists({count, page}: GetPlaylistsBodyI): Promise<PlaylistDetailsI[]> {
+
+		const offset = count * page
+		const start = 1 + offset
+		const end = count + offset
+
+		try {
+			const results = await pool.query(
+				`SELECT id, title, description, datetime_created FROM playlists WHERE id BETWEEN ? AND ?`,
+				[start, end]
+			);
+
+			let formattedResults: PlaylistDetailsI[] = Object.values(
+				JSON.parse(JSON.stringify(results))
+			);
+
+			return formattedResults;
+		} catch (err: any) {
+			throw Error("Failed to get playlists.");
 		}
 	}
 }

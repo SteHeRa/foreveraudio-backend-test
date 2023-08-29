@@ -13,6 +13,22 @@ export interface GetPlaylistByIdRequestI {
 	playlistId: string;
 }
 
+export interface GetPlaylistByIdBodyI {
+	playlistId: number
+}
+
+/**
+ * Interface for get playlists object
+ */
+export interface GetPlaylistsRequestI {
+	count: string;
+	page: string;
+}
+export interface GetPlaylistsBodyI {
+	count: number;
+	page: number;
+}
+
 /**
  * Interface for playlist details object
  */
