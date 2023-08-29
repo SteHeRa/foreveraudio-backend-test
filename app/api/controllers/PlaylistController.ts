@@ -62,7 +62,7 @@ export default class PlaylistController {
 			// add request body params to the new variable
 			const params: GetPlaylistByIdBodyI = req.body;
 
-			// create new playlist
+			// get playlist by id
 			const playlistDetails = await this.playlistRepository.getPlaylistById(
 				params
 			);
@@ -94,12 +94,12 @@ export default class PlaylistController {
 				// add request body params to the new variable
 				const params: GetPlaylistsBodyI = req.body;
 
-				// create new playlist
+				// get multiple playlists
 				const playlistDetails = await this.playlistRepository.getPlaylists(
 					params
 				);
 
-				// return response containing playlist details
+				// return response containing playlists details
 				return res.json({
 					playlists: playlistDetails,
 					params: params,
