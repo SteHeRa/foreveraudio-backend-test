@@ -30,6 +30,15 @@ export interface GetPlaylistsBodyI {
 }
 
 /**
+ * Interface for GetPlaylists return value from Model
+ */
+
+export interface GetPlaylistsResultI {
+	playlists: PlaylistDetailsI[],
+	lastPage: number
+}
+
+/**
  * Interface for playlist details object
  */
 export interface PlaylistDetailsI extends CreatePlaylistRequestI {

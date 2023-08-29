@@ -1,4 +1,4 @@
-import { PlaylistDetailsI, CreatePlaylistRequestI, GetPlaylistByIdBodyI, GetPlaylistsBodyI } from "../interfaces/playlists";
+import { PlaylistDetailsI, CreatePlaylistRequestI, GetPlaylistByIdBodyI, GetPlaylistsBodyI, GetPlaylistsResultI } from "../interfaces/playlists";
 import PlaylistModel from "../models/Playlist";
 
 export default class PlaylistRepository {
@@ -44,9 +44,9 @@ export default class PlaylistRepository {
 	 */
 	public async getPlaylists(
 		params: GetPlaylistsBodyI
-	): Promise<PlaylistDetailsI[]> {
-		const details = await this.playlistModel.getPlaylists(params);
+	): Promise<GetPlaylistsResultI> {
+		const result = await this.playlistModel.getPlaylists(params);
 
-		return details;
+		return result;
 	}
 }

@@ -95,16 +95,17 @@ export default class PlaylistController {
 				const params: GetPlaylistsBodyI = req.body;
 
 				// get multiple playlists
-				const playlistDetails = await this.playlistRepository.getPlaylists(
+				const {playlists, lastPage} = await this.playlistRepository.getPlaylists(
 					params
 				);
 
-				const nextPageQuery = playlistDetails.length < params.count ? undefined : `/playlists?count=${params.count}&page=${params.page + 1}`
+				const nextPageQuery = lastPage <= params.page ? undefined : `/playlists?count=${params.count}&page=${params.page + 1}`
 
 				// return response containing playlists details and next page query params
 				return res.json({
-					playlists: playlistDetails,
+					playlists,
 					nextPageQuery,
+					lastPage,
 					params: params,
 				});
 			} catch (err: any) {
