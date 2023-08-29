@@ -99,9 +99,12 @@ export default class PlaylistController {
 					params
 				);
 
-				// return response containing playlists details
+				const nextPageQuery = playlistDetails.length < params.count ? undefined : `/playlists?count=${params.count}&page=${params.page + 1}`
+
+				// return response containing playlists details and next page query params
 				return res.json({
 					playlists: playlistDetails,
+					nextPageQuery,
 					params: params,
 				});
 			} catch (err: any) {
