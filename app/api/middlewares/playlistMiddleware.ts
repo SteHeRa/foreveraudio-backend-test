@@ -111,7 +111,7 @@ function validatePlaylistId(
 		let parsedPage = page ? parseInt(page) : undefined
 
 		// if count is not provided or is invalid default to 10
-		if (!parsedCount) {
+		if (!parsedCount || parsedCount < 0) {
 			parsedCount = 10
 		}
 
@@ -123,7 +123,7 @@ function validatePlaylistId(
 		}
 
 		// if page is not provided or is invalid default to first page
-		if (!parsedPage) {
+		if (!parsedPage || parsedPage < 0) {
 			// pages are 0 indexed
 			parsedPage = 0
 		}
