@@ -1,4 +1,4 @@
-import { PlaylistDetailsI, PlaylistRequestI } from "../interfaces/playlists";
+import { PlaylistDetailsI, CreatePlaylistRequestI, GetPlaylistByIdBodyI, GetPlaylistsBodyI, GetPlaylistsResultI } from "../interfaces/playlists";
 import PlaylistModel from "../models/Playlist";
 
 export default class PlaylistRepository {
@@ -9,17 +9,44 @@ export default class PlaylistRepository {
 	}
 
 	/**
-	 * Create  anew playlist in the database
+	 * Create  a new playlist in the database
 	 * and playlist details
 	 * @param playlistDetails
 	 * @returns
 	 */
 	public async createPlaylist(
-		playlistDetails: PlaylistRequestI
+		playlistDetails: CreatePlaylistRequestI
 	): Promise<PlaylistDetailsI> {
 		const playlistId = await this.playlistModel.save(playlistDetails);
 		const details = await this.playlistModel.getPlaylistById(playlistId);
 
 		return details;
+	}
+
+	/**
+	 * get a specific playlist from the database by id
+	 * @param playlistId
+	 * @returns
+	 */
+	public async getPlaylistById(
+		{ playlistId }: GetPlaylistByIdBodyI
+	): Promise<PlaylistDetailsI> {
+
+		const details = await this.playlistModel.getPlaylistById(playlistId);
+
+		return details;
+	}
+
+	/**
+	 * get multiple playlists from the database with pagination
+	 * @param countAndPage
+	 * @returns
+	 */
+	public async getPlaylists(
+		params: GetPlaylistsBodyI
+	): Promise<GetPlaylistsResultI> {
+		const result = await this.playlistModel.getPlaylists(params);
+
+		return result;
 	}
 }
